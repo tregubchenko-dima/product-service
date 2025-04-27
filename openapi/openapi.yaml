@@ -1,0 +1,83 @@
+openapi: 3.0.4
+info:
+  title: Template
+  description: Template
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: templates
+    description: Everything about template
+paths:
+  /v1/templates:
+    get:
+      tags:
+        - templates
+      summary: Get template info
+      description: Get template info
+      operationId: getTemplate
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponseList'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Template not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '422':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "1001"
+        description:
+          type: string
+          example: "Error description example"
+    TemplateResponseList:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: "#/components/schemas/TemplateCommon"
+    TemplateCommon:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "value example"
+        date:
+          type: string
+          format: date
+          example: "2022-01-30"
+        status:
+          type: string
+          enum:
+            - PROCESSING
+            - SUCCESS
+            - FAILED
