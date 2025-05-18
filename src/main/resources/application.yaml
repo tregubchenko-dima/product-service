@@ -14,3 +14,20 @@ spring:
   liquibase:
     change-log: classpath:db.changelog/db.changelog-master.yaml
     enabled: true
+
+#Circuit Breaker
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slowCallDurationThreshold: 4s
+        slowCallRateThreshold: 90
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        minimumNumberOfCalls: 10
+    instances:
+      myCircuitBreaker:
+        baseConfig: default
+        waitDurationInOpenState: 20s

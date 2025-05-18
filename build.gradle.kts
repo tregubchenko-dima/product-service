@@ -27,6 +27,8 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework:spring-aspects")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.30")
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
     implementation("jakarta.validation:jakarta.validation-api:3.1.1")
@@ -42,6 +44,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter-api:5.12.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("javax.validation:validation-api:2.0.1.Final")
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:3.2.1")
 
 
     compileOnly("org.projectlombok:lombok")
@@ -53,6 +56,8 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.2")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
