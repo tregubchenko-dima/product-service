@@ -45,6 +45,7 @@ dependencies {
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:3.2.1")
+    implementation("org.springframework.retry:spring-retry:2.0.12")
 
 
     compileOnly("org.projectlombok:lombok")
