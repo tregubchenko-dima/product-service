@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springframework:spring-aspects")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.30")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
     implementation("jakarta.validation:jakarta.validation-api:3.1.1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
@@ -46,6 +47,7 @@ dependencies {
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:3.2.1")
     implementation("org.springframework.retry:spring-retry:2.0.12")
+    implementation("org.springframework.kafka:spring-kafka:3.3.6")
 
 
     compileOnly("org.projectlombok:lombok")
