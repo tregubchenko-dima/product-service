@@ -23,14 +23,14 @@ public class EventKafkaListener {
         log.info("MESSAGE RECEIVED: %s".formatted(event));
         var header = event.headers().lastHeader("command");
         if (header != null) {
-            if (String.valueOf(header.value()).equals("OrderBookedEvent")) {
+            if (new String(header.value()).equals("OrderBookedEvent")) {
                 try {
                     productService.takeProductToOrder(objectMapper.readValue(event.value(), OrderBookedEvent.class));
                 } catch (Exception e) {
                     log.error("Не удалось десериализовать OrderBookedEvent");
                     throw new RuntimeException(e);
                 }
-            } else if (String.valueOf(header.value()).equals("PaymentCanceledEvent")) {
+            } else if (new String(header.value()).equals("PaymentCanceledEvent")) {
                 try {
                     productService.cancelProductFromOrder(objectMapper.readValue(event.value(), PaymentCanceledEvent.class));
                 } catch (Exception e) {
