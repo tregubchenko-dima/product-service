@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProductService {
 
-    @Value("${spring.kafka.services.payment.command.topic}")
-    private String paymentCommandTopic;
+    private static final String COMMAND_HEADER_NAME = "command";
+
     @Value("${spring.kafka.services.order.command.topic}")
     private String orderCommandTopic;
 
@@ -35,7 +37,12 @@ public class ProductService {
         productRepository.save(productEntity);
 
         try {
-            kafkaTemplate.send(paymentCommandTopic, objectMapper.writeValueAsString(productMapper.toProductTookEvent(productEntity)));
+            kafkaTemplate.send(
+                    MessageBuilder.withPayload(objectMapper.writeValueAsString(productMapper.toProductTookEvent(productEntity)))
+                            .setHeader(KafkaHeaders.TOPIC, orderCommandTopic)
+                            .setHeader(COMMAND_HEADER_NAME, "ProductTookEvent")
+                            .build()
+            );
         } catch (Exception e) {
             log.error("Ошибка диссериализации");
             throw new RuntimeException();
@@ -49,7 +56,12 @@ public class ProductService {
         productRepository.save(productEntity);
 
         try {
-            kafkaTemplate.send(orderCommandTopic, objectMapper.writeValueAsString(productMapper.toProductCanceledEvent(productEntity)));
+            kafkaTemplate.send(
+                    MessageBuilder.withPayload(objectMapper.writeValueAsString(productMapper.toProductCanceledEvent(productEntity)))
+                            .setHeader(KafkaHeaders.TOPIC, orderCommandTopic)
+                            .setHeader(COMMAND_HEADER_NAME, "ProductCanceledEvent")
+                            .build()
+            );
         } catch (Exception e) {
             log.error("Ошибка диссериализации");
             throw new RuntimeException();
