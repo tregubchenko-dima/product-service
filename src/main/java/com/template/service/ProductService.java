@@ -38,7 +38,7 @@ public class ProductService {
 
         try {
             kafkaTemplate.send(
-                    MessageBuilder.withPayload(objectMapper.writeValueAsString(productMapper.toProductTookEvent(productEntity)))
+                    MessageBuilder.withPayload(objectMapper.writeValueAsString(productMapper.toProductTookEvent(event.getId(), productEntity)))
                             .setHeader(KafkaHeaders.TOPIC, orderCommandTopic)
                             .setHeader(COMMAND_HEADER_NAME, "ProductTookEvent")
                             .build()
@@ -57,7 +57,7 @@ public class ProductService {
 
         try {
             kafkaTemplate.send(
-                    MessageBuilder.withPayload(objectMapper.writeValueAsString(productMapper.toProductCanceledEvent(productEntity)))
+                    MessageBuilder.withPayload(objectMapper.writeValueAsString(productMapper.toProductCanceledEvent(event.getOrderId(), productEntity)))
                             .setHeader(KafkaHeaders.TOPIC, orderCommandTopic)
                             .setHeader(COMMAND_HEADER_NAME, "ProductCanceledEvent")
                             .build()

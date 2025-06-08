@@ -6,18 +6,21 @@ import com.template.model.event.ProductTookEvent;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.UUID;
+
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    @Mapping(target = "id", source = "entity.id")
+    @Mapping(target = "orderId", source = "orderId")
     @Mapping(target = "name", source = "entity.name")
     @Mapping(target = "price", source = "entity.price")
     @Mapping(target = "count", constant = "1")
-    ProductTookEvent toProductTookEvent(ProductEntity entity);
+    ProductTookEvent toProductTookEvent(UUID orderId, ProductEntity entity);
 
+    @Mapping(target = "orderId", source = "orderId")
     @Mapping(target = "name", source = "entity.name")
     @Mapping(target = "price", source = "entity.price")
     @Mapping(target = "count", source = "entity.count")
-    ProductCanceledEvent toProductCanceledEvent(ProductEntity entity);
+    ProductCanceledEvent toProductCanceledEvent(UUID orderId, ProductEntity entity);
 }
